@@ -60,11 +60,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TripExpensesControllerTests.cs" />
+    <Compile Include="Controllers\TripExpensesControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\LoggerTests.cs" />
+    <Compile Include="Services\TripExpensesServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

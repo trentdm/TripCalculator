@@ -2,7 +2,7 @@
 {
     public class TripExpensesResponse
     {
-        public TripPurchasesCollection Purchases { get; set; }
+        public TripMemberExpensesCollection TripMemberExpenses { get; set; }
         public TripSettlementCollection Settlements { get; set; }
     }
 }
