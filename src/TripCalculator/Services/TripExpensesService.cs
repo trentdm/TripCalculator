@@ -7,26 +7,26 @@ namespace TripCalculator.Services
 {
     public interface ITripExpensesService
     {
-        TripSettlementCollection GetSettlements(TripMemberCollection member);
+        TripSettlementCollection GetSettlements(TripMemberCollection members);
     }
 
     public class TripExpensesService : ITripExpensesService
     {
-        public TripSettlementCollection GetSettlements(TripMemberCollection member)
+        public TripSettlementCollection GetSettlements(TripMemberCollection members)
         {
-            SetExpenseTotals(member);
-            SetAmountOwed(member);
+            SetExpenseTotals(members);
+            SetAmountOwed(members);
 
-            var settlements = GetCalculatedSettlements(member);
-            return new TripSettlementCollection { Settlements = settlements.ToList() };
+            var settlements = GetCalculatedSettlements(members);
+            return new TripSettlementCollection { Settlements = settlements };
         }
 
-        private void SetExpenseTotals(TripMemberCollection member)
+        private void SetExpenseTotals(TripMemberCollection members)
         {
-            foreach (var tripMemberExpense in member.TripMembers)
-                tripMemberExpense.TotalExpense = tripMemberExpense.Expenses.Sum();
+            foreach (var member in members.TripMembers)
+                member.TotalExpense = member.Expenses.Sum();
 
-            member.TotalExpense = member.TripMembers.Sum(m => m.TotalExpense);
+            members.TotalExpense = members.TripMembers.Sum(m => m.TotalExpense);
         }
 
         private void SetAmountOwed(TripMemberCollection member)
@@ -40,43 +40,49 @@ namespace TripCalculator.Services
             }
         }
 
-        private decimal GetAverageMemberExpense(TripMemberCollection member)
+        private decimal GetAverageMemberExpense(TripMemberCollection members)
         {
-            return member.TotalExpense / member.TripMembers.Count();
+            return members.TotalExpense / members.TripMembers.Count();
         }
 
-        private IEnumerable<TripSettlement> GetCalculatedSettlements(TripMemberCollection member)
+        private IEnumerable<TripSettlement> GetCalculatedSettlements(TripMemberCollection members)
         {
-            var tripMemberExpenses = member.TripMembers.OrderBy(m => m.AmountOwed).ToList();
+            const decimal shareTolerance = 0.1M;
+            var orderedMembers = GetOrderedMembers(members);
 
-            for(var i = 0; i < tripMemberExpenses.Count; i++)
+            foreach (var sender in GetSenders(orderedMembers, shareTolerance))
             {
-                var sender = tripMemberExpenses[i];
-
-                if (sender.AmountBalance < 0.01M)
+                foreach (var receiver in GetReceivers(orderedMembers, shareTolerance))
                 {
-                    for (var j = i + 1; j < tripMemberExpenses.Count; j++)
+                    var transferrableAmount = GetMaximumTransferrableAmount(sender, receiver);
+                    sender.AmountTransferred += transferrableAmount;
+                    sender.AmountBalance += transferrableAmount;
+                    receiver.AmountTransferred -= transferrableAmount;
+                    receiver.AmountBalance -= transferrableAmount;
+
+                    yield return new TripSettlement
                     {
-                        var receiver = tripMemberExpenses[j];
-
-                        if (receiver.AmountBalance > 0.01M)
-                        {
-                            var transferrableAmount = GetMaximumTransferrableAmount(sender, receiver);
-                            sender.AmountTransferred += transferrableAmount;
-                            sender.AmountBalance += transferrableAmount;
-                            receiver.AmountTransferred -= transferrableAmount;
-                            receiver.AmountBalance -= transferrableAmount;
-
-                            yield return new TripSettlement
-                            {
-                                SenderName = sender.Name,
-                                ReceiverName = receiver.Name,
-                                Amount = transferrableAmount
-                            };
-                        }
-                    }
+                        SenderName = sender.Name,
+                        ReceiverName = receiver.Name,
+                        Amount = transferrableAmount
+                    };
                 }
             }
+        }
+
+        private List<TripMember> GetOrderedMembers(TripMemberCollection members)
+        {
+            return members.TripMembers.OrderBy(m => m.AmountOwed).ToList();
+        }
+
+        private IEnumerable<TripMember> GetSenders(List<TripMember> orderedMembers, decimal shareTolerance)
+        {
+            return orderedMembers.Where(s => s.AmountBalance < shareTolerance);
+        }
+
+        private IEnumerable<TripMember> GetReceivers(List<TripMember> orderedMembers, decimal shareTolerance)
+        {
+            return orderedMembers.Where(r => r.AmountBalance > shareTolerance);
         }
 
         private decimal GetMaximumTransferrableAmount(TripMember sender, TripMember receiver)
