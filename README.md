@@ -1,16 +1,16 @@
 # TripCalculator
 
-A simple RESTful application to help individuals know how to evenly split the expenses of a trip.
+A simple RESTful application to help individuals know how to evenly settle discrepant expenses made during a group trip.
 
 ## Deployment
 
-Build and deploy using Visual Studio 2012 or later and [MVC5 support](http://www.asp.net/mvc/mvc5).
+Build and deploy using Visual Studio 2012 or later and [MVC5](http://www.asp.net/mvc/mvc5).
 
 ## Usage
 
-Post a query to /api/tripexpenses and view the response.
+Post a JSON payload containing the expense information to /api/tripexpenses.
 
-The query should be constructed according to the following basic data structure:
+The query should be constructed similar to the following basic data structure:
 ```JSON
 {
   "tripMemberExpenses": [
@@ -21,7 +21,7 @@ The query should be constructed according to the following basic data structure:
 }
 ```
 
-The response will be constructed according to the following:
+The response will be constructed similar to the following:
 ```JSON
 {
     "query": {
