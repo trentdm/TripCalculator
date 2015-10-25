@@ -4,15 +4,14 @@ A simple RESTful application to help individuals know how to evenly split the ex
 
 ## Deployment
 
-Requires Visual Studio 2012 or later and [MVC5 support](http://www.asp.net/mvc/mvc5).
-Was built in Visual Studio 2015, so will be best supported by that version or later.
+Build and deploy using Visual Studio 2012 or later and [MVC5 support](http://www.asp.net/mvc/mvc5).
 
 ## Usage
 
 Post a query to /api/tripexpenses and view the response.
 
 The query should be constructed according to the following basic data structure:
-'''JSON
+```JSON
 {
   "tripMemberExpenses": [
     { "member": { "name": "Alice" }, "Expenses": [ 1.25, 1.50, 5.67, 98.41 ] },
@@ -20,10 +19,10 @@ The query should be constructed according to the following basic data structure:
     { "member": { "name": "Catherine" }, "Expenses": [ 1.01, 1.12, 2.23, 3.34, 5.45, 8.56 ] }
   ]
 }
-'''
+```
 
 The response will be constructed according to the following:
-'''JSON
+```JSON
 {
     "query": {
         "tripMembers": [
@@ -133,9 +132,13 @@ The response will be constructed according to the following:
         ]
     }
 }
-'''
+```
 
 ## Requirements
+
+Requires Visual Studio 2012 or later and [MVC5](http://www.asp.net/mvc/mvc5).
+
+Trip Calculator was built in Visual Studio 2015, so expect best support from VS2015 or later.
 
 ## License
 

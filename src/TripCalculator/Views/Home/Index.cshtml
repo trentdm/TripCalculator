@@ -1,142 +1,22 @@
 ﻿<div class="jumbotron">
     <h1>Trip Calculator</h1>
-    <p class="lead">A sipmle calculator for settling purchase discrepancies after a group trip!</p>
-    <p><a href="#" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    <p class="lead">A simple calculator for settling purchase discrepancies after a group trip!</p>
+    <p><a href="https://github.com/trentdm/TripCalculator/blob/master/README.md" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
 </div>
 <div class="row">
     <div class="col-md-4">
         <h2>Querying with the API</h2>
-        <p>The API may be queried at /api/tripexpenses. It should be structed as follows:</p>
-        <code>
-            {
-                "TripMembers": [
-                    { "name": "Alice", "Expenses": [ 1.25, 1.50, 5.67, 98.41 ] },
-                    { "name": "Brandon", "Expenses": [ 49.96, 87.12, 105.78 ] },
-                    { "name": "Catherine", "Expenses": [ 1.01, 1.12, 2.23, 3.34, 5.45, 8.56 ] }
-                ]
-            }
-        </code>
-        <p><a class="btn btn-default" href="#">Learn more &raquo;</a></p>
+        <p>The API may be queried at /api/tripexpenses by posting JSON payload containing the expense information.</p>
+        <p><a class="btn btn-default" href="/Help">Learn more &raquo;</a></p>
     </div>
     <div class="col-md-4">
         <h2>Reviewing results from the API</h2>
-        <p>The API will return a result from /api/tripexpenses. It will be structured as follows:</p>
-        <code>
-            {
-                "query": {
-                    "tripMembers": [
-                        {
-                            "name": "Alice",
-                            "expenses": [
-                                1.25,
-                                1.5,
-                                5.67,
-                                98.41
-                            ],
-                            "totalExpense": 106.83,
-                            "amountOwed": -16.97,
-                            "amountTransferred": 16.97,
-                            "amountBalance": 0
-                        },
-                        {
-                            "name": "Brandon",
-                            "expenses": [
-                                49.96,
-                                87.12,
-                                105.78
-                            ],
-                            "totalExpense": 242.86,
-                            "amountOwed": 119.06,
-                            "amountTransferred": -119.06,
-                            "amountBalance": 0
-                        },
-                        {
-                            "name": "Catherine",
-                            "expenses": [
-                                1.01,
-                                1.12,
-                                2.23,
-                                3.34,
-                                5.45,
-                                8.56
-                        ],
-                        "totalExpense": 21.71,
-                        "amountOwed": -102.09,
-                        "amountTransferred": 102.09,
-                        "amountBalance": 0
-                        }
-                    ],
-                    "totalExpense": 371.4
-                },
-                "data": {
-                    "settlements": [
-                        {
-                            "sender": {
-                                "name": "Catherine",
-                                "expenses": [
-                                1.01,
-                                1.12,
-                                2.23,
-                                3.34,
-                                5.45,
-                                8.56
-                                ],
-                                "totalExpense": 21.71,
-                                "amountOwed": -102.09,
-                                "amountTransferred": 102.09,
-                                "amountBalance": 0
-                            },
-                            "receiver": {
-                                "name": "Brandon",
-                                "expenses": [
-                                49.96,
-                                87.12,
-                                105.78
-                                ],
-                                "totalExpense": 242.86,
-                                "amountOwed": 119.06,
-                                "amountTransferred": -119.06,
-                                "amountBalance": 0
-                            },
-                            "amount": 102.09
-                        },
-                        {
-                            "sender": {
-                                "name": "Alice",
-                                "expenses": [
-                                1.25,
-                                1.5,
-                                5.67,
-                                98.41
-                                ],
-                                "totalExpense": 106.83,
-                                "amountOwed": -16.97,
-                                "amountTransferred": 16.97,
-                                "amountBalance": 0
-                            },
-                            "receiver": {
-                                "name": "Brandon",
-                                "expenses": [
-                                49.96,
-                                87.12,
-                                105.78
-                                ],
-                                "totalExpense": 242.86,
-                                "amountOwed": 119.06,
-                                "amountTransferred": -119.06,
-                                "amountBalance": 0
-                            },
-                            "amount": 16.97
-                        }
-                    ]
-                }
-            }
-        </code>
-        <p><a class="btn btn-default" href="#">Learn more &raquo;</a></p>
+        <p>The API will return a result from /api/tripexpenses containing the calculated settlement amounts and the original query.</p>
+        <p><a class="btn btn-default" href="h/Help">Learn more &raquo;</a></p>
     </div>
     <div class="col-md-4">
         <h2>Follow on Github</h2>
-        <p>This project is still very much a work in progress, <a href="http://github.com/trentdm/TripCalculator">fork it here</a>!</p>
-        <p><a class="btn btn-default" href="#">Learn more &raquo;</a></p>
+        <p>This project is still very much a work in progress, you can keep up to date with it on the <a href="https://github.com/trentdm/TripCalculator">projects github page</a>!</p>
+        <p><a class="btn btn-default" href="https://github.com/trentdm/TripCalculator">Learn more &raquo;</a></p>
     </div>
 </div>
