@@ -46,16 +46,16 @@ namespace TripCalculator.Tests.Services
         [Test]
         public void TestLogDebugPrepends()
         {
-            _logger.LogDebug("Foo {0}", arguments: "Bar");
+            _logger.LogDebug("Foo {0}", "Bar");
             var result = _writer.ToString();
 
-            Assert.That(result, Is.StringStarting("Debug Info: TestLogDebug"));
+            Assert.That(result, Is.EqualTo("Foo Bar\r\n"));
         }
 
         [Test]
         public void TestLogDebugAppendsArgs()
         {
-            _logger.LogDebug("Foo {0}", arguments: "Bar");
+            _logger.LogDebug("Foo {0}", "Bar");
             var result = _writer.ToString();
             
             Assert.That(result, Is.StringEnding("Foo Bar\r\n"));
@@ -66,11 +66,10 @@ namespace TripCalculator.Tests.Services
         {
             var exception = new IOException("io");
 
-            _logger.LogException(exception, "Foo {0}", arguments: "Bar");
+            _logger.LogException(exception, "Foo {0}", "Bar");
             var result = _writer.ToString();
 
-            Assert.That(result, Is.StringStarting("Exception Info: " +
-                                                  "IOException, io"));
+            Assert.That(result, Is.StringStarting("Exception: IOException, io\r\n"));
         }
 
         [Test]
@@ -78,7 +77,7 @@ namespace TripCalculator.Tests.Services
         {
             var exception = new IOException("io");
 
-            _logger.LogException(exception, "Foo {0}", arguments: "Bar");
+            _logger.LogException(exception, "Foo {0}", "Bar");
             var result = _writer.ToString();
 
             Assert.That(result, Is.StringEnding("Foo Bar\r\n"));
