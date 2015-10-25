@@ -47,30 +47,30 @@ namespace TripCalculator.Services
 
         private IEnumerable<TripSettlement> GetCalculatedSettlements(TripMemberCollection member)
         {
-            var tripMemberExpenses = member.TripMembers.ToList();
+            var tripMemberExpenses = member.TripMembers.OrderBy(m => m.AmountOwed).ToList();
 
             for(var i = 0; i < tripMemberExpenses.Count; i++)
             {
-                var payer = tripMemberExpenses[i];
+                var sender = tripMemberExpenses[i];
 
-                if (payer.AmountBalance < 0.01M)
+                if (sender.AmountBalance < 0.01M)
                 {
                     for (var j = i + 1; j < tripMemberExpenses.Count; j++)
                     {
-                        var payee = tripMemberExpenses[j];
+                        var receiver = tripMemberExpenses[j];
 
-                        if (payee.AmountBalance > 0.01M)
+                        if (receiver.AmountBalance > 0.01M)
                         {
-                            var transferrableAmount = GetMaximumTransferrableAmount(payer, payee);
-                            payer.AmountTransferred += transferrableAmount;
-                            payer.AmountBalance -= transferrableAmount;
-                            payee.AmountTransferred -= transferrableAmount;
-                            payee.AmountBalance += transferrableAmount;
+                            var transferrableAmount = GetMaximumTransferrableAmount(sender, receiver);
+                            sender.AmountTransferred += transferrableAmount;
+                            sender.AmountBalance += transferrableAmount;
+                            receiver.AmountTransferred -= transferrableAmount;
+                            receiver.AmountBalance -= transferrableAmount;
 
                             yield return new TripSettlement
                             {
-                                Payer = payer,
-                                Payee = payee,
+                                Sender = sender,
+                                Receiver = receiver,
                                 Amount = transferrableAmount
                             };
                         }
@@ -79,9 +79,9 @@ namespace TripCalculator.Services
             }
         }
 
-        private decimal GetMaximumTransferrableAmount(TripMember payer, TripMember payee)
+        private decimal GetMaximumTransferrableAmount(TripMember sender, TripMember receiver)
         {
-            return Math.Min(Math.Abs(payer.AmountBalance), payee.AmountBalance);
+            return Math.Min(Math.Abs(sender.AmountBalance), receiver.AmountBalance);
         }
     }
 }

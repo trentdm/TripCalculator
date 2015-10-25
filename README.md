@@ -26,34 +26,34 @@ The response will be constructed according to the following:
 '''JSON
 {
     "query": {
-        "tripMemberExpenses": [
+        "tripMembers": [
             {
-                "member": {
-                    "name": "Alice"
-                },
+                "name": "Alice",
                 "expenses": [
                     1.25,
                     1.5,
                     5.67,
                     98.41
                 ],
-                "totalExpense": 106.83
+                "totalExpense": 106.83,
+                "amountOwed": -16.97,
+                "amountTransferred": 16.97,
+                "amountBalance": 0
             },
             {
-                "member": {
-                    "name": "Brandon"
-                },
+                "name": "Brandon",
                 "expenses": [
                     49.96,
                     87.12,
                     105.78
                 ],
-                "totalExpense": 242.86
+                "totalExpense": 242.86,
+                "amountOwed": 119.06,
+                "amountTransferred": -119.06,
+                "amountBalance": 0
             },
             {
-                "member": {
-                    "name": "Catherine"
-                },
+                "name": "Catherine",
                 "expenses": [
                     1.01,
                     1.12,
@@ -63,7 +63,9 @@ The response will be constructed according to the following:
                     8.56
                 ],
                 "totalExpense": 21.71,
-                "amountOwed": -102.09
+                "amountOwed": -102.09,
+                "amountTransferred": 102.09,
+                "amountBalance": 0
             }
         ],
         "totalExpense": 371.4
@@ -71,22 +73,62 @@ The response will be constructed according to the following:
     "data": {
         "settlements": [
             {
-                "payer": {
-                    "name": "Alice"
+                "sender": {
+                    "name": "Catherine",
+                    "expenses": [
+                        1.01,
+                        1.12,
+                        2.23,
+                        3.34,
+                        5.45,
+                        8.56
+                    ],
+                    "totalExpense": 21.71,
+                    "amountOwed": -102.09,
+                    "amountTransferred": 102.09,
+                    "amountBalance": 0
                 },
-                "payee": {
-                    "name": "Brandon"
+                "receiver": {
+                    "name": "Brandon",
+                    "expenses": [
+                        49.96,
+                        87.12,
+                        105.78
+                    ],
+                    "totalExpense": 242.86,
+                    "amountOwed": 119.06,
+                    "amountTransferred": -119.06,
+                    "amountBalance": 0
                 },
-                "amount": ##.##
+                "amount": 102.09
             },
-			{
-                "payer": {
-                    "name": "Catherine"
+            {
+                "sender": {
+                    "name": "Alice",
+                    "expenses": [
+                        1.25,
+                        1.5,
+                        5.67,
+                        98.41
+                    ],
+                    "totalExpense": 106.83,
+                    "amountOwed": -16.97,
+                    "amountTransferred": 16.97,
+                    "amountBalance": 0
                 },
-                "payee": {
-                    "name": "Brandon"
+                "receiver": {
+                    "name": "Brandon",
+                    "expenses": [
+                        49.96,
+                        87.12,
+                        105.78
+                    ],
+                    "totalExpense": 242.86,
+                    "amountOwed": 119.06,
+                    "amountTransferred": -119.06,
+                    "amountBalance": 0
                 },
-                "amount": ##.##
+                "amount": 16.97
             }
         ]
     }

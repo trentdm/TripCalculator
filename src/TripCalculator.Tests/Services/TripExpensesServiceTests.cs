@@ -40,25 +40,25 @@ namespace TripCalculator.Tests.Services
         }
 
         [Test]
-        public void TestGetSettlementsTwoPersonPayer()
+        public void TestGetSettlementsTwoPersonSender()
         {
             var memberExpenses = GetTwoMemberExpensesCollection();
 
             var result = _service.GetSettlements(memberExpenses);
             var settlement = result.Settlements.ElementAt(0);
 
-            Assert.That(settlement.Payer.Name, Is.EqualTo("Amber"));
+            Assert.That(settlement.Sender.Name, Is.EqualTo("Amber"));
         }
 
         [Test]
-        public void TestGetSettlementsTwoPersonPayee()
+        public void TestGetSettlementsTwoPersonReceiver()
         {
             var memberExpenses = GetTwoMemberExpensesCollection();
 
             var result = _service.GetSettlements(memberExpenses);
             var settlement = result.Settlements.ElementAt(0);
 
-            Assert.That(settlement.Payee.Name, Is.EqualTo("Brandon"));
+            Assert.That(settlement.Receiver.Name, Is.EqualTo("Brandon"));
         }
 
         [Test]
@@ -84,25 +84,25 @@ namespace TripCalculator.Tests.Services
         }
 
         [Test]
-        public void TestGetSettlementsThreePersonFirstSettlementPayer()
+        public void TestGetSettlementsThreePersonFirstSettlementSender()
         {
             var memberExpenses = GetThreeMemberExpensesCollection();
 
             var result = _service.GetSettlements(memberExpenses);
             var settlement = result.Settlements.ElementAt(0);
 
-            Assert.That(settlement.Payer.Name, Is.EqualTo("Amber"));
+            Assert.That(settlement.Sender.Name, Is.EqualTo("Catherine"));
         }
 
         [Test]
-        public void TestGetSettlementsThreePersonFirstSettlementPayee()
+        public void TestGetSettlementsThreePersonFirstSettlementReceiver()
         {
             var memberExpenses = GetThreeMemberExpensesCollection();
 
             var result = _service.GetSettlements(memberExpenses);
             var settlement = result.Settlements.ElementAt(0);
 
-            Assert.That(settlement.Payee.Name, Is.EqualTo("Brandon"));
+            Assert.That(settlement.Receiver.Name, Is.EqualTo("Brandon"));
         }
 
         [Test]
@@ -113,29 +113,29 @@ namespace TripCalculator.Tests.Services
             var result = _service.GetSettlements(memberExpenses);
             var settlement = result.Settlements.ElementAt(0);
 
-            Assert.That(settlement.Amount, Is.EqualTo(16.97));
+            Assert.That(settlement.Amount, Is.EqualTo(102.09M));
         }
 
         [Test]
-        public void TestGetSettlementsThreePersonSecondSettlementPayer()
+        public void TestGetSettlementsThreePersonSecondSettlementSender()
         {
             var memberExpenses = GetThreeMemberExpensesCollection();
 
             var result = _service.GetSettlements(memberExpenses);
             var settlement = result.Settlements.ElementAt(1);
 
-            Assert.That(settlement.Payer.Name, Is.EqualTo("Catherine"));
+            Assert.That(settlement.Sender.Name, Is.EqualTo("Amber"));
         }
 
         [Test]
-        public void TestGetSettlementsThreePersonSecondSettlementPayee()
+        public void TestGetSettlementsThreePersonSecondSettlementReceiver()
         {
             var memberExpenses = GetThreeMemberExpensesCollection();
 
             var result = _service.GetSettlements(memberExpenses);
             var settlement = result.Settlements.ElementAt(1);
 
-            Assert.That(settlement.Payee.Name, Is.EqualTo("Brandon"));
+            Assert.That(settlement.Receiver.Name, Is.EqualTo("Brandon"));
         }
 
         [Test]
@@ -146,7 +146,7 @@ namespace TripCalculator.Tests.Services
             var result = _service.GetSettlements(memberExpenses);
             var settlement = result.Settlements.ElementAt(1);
 
-            Assert.That(settlement.Amount, Is.EqualTo(102.03));
+            Assert.That(settlement.Amount, Is.EqualTo(16.97M));
         }
 
         private TripMemberCollection GetOneMemberExpenseCollection()

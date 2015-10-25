@@ -2,8 +2,8 @@
 {
     public class TripSettlement
     {
-        public TripMember Payer { get; set; }
-        public TripMember Payee { get; set; }
+        public TripMember Sender { get; set; }
+        public TripMember Receiver { get; set; }
         public decimal Amount { get; set; }
     }
 }
