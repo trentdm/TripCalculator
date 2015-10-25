@@ -2,9 +2,9 @@
 
 namespace TripCalculator.Models.TripExpenses
 {
-    public class TripMemberExpensesCollection
+    public class TripMemberCollection
     {
-        public IEnumerable<TripMemberExpenses> TripMemberExpenses { get; set; }
+        public IEnumerable<TripMember> TripMembers { get; set; }
         public decimal TotalExpense { get; set; }
     }
 }

@@ -7,65 +7,70 @@ namespace TripCalculator.Services
 {
     public interface ITripExpensesService
     {
-        TripSettlementCollection GetSettlements(TripMemberExpensesCollection memberExpenses);
+        TripSettlementCollection GetSettlements(TripMemberCollection member);
     }
 
     public class TripExpensesService : ITripExpensesService
     {
-        public TripSettlementCollection GetSettlements(TripMemberExpensesCollection memberExpenses)
+        public TripSettlementCollection GetSettlements(TripMemberCollection member)
         {
-            SetExpenseTotals(memberExpenses);
-            SetAmountOwed(memberExpenses);
+            SetExpenseTotals(member);
+            SetAmountOwed(member);
 
-            var settlements = GetCalculatedSettlements(memberExpenses);
+            var settlements = GetCalculatedSettlements(member);
             return new TripSettlementCollection { Settlements = settlements.ToList() };
         }
 
-        private void SetExpenseTotals(TripMemberExpensesCollection memberExpenses)
+        private void SetExpenseTotals(TripMemberCollection member)
         {
-            foreach (var tripMemberExpense in memberExpenses.TripMemberExpenses)
+            foreach (var tripMemberExpense in member.TripMembers)
                 tripMemberExpense.TotalExpense = tripMemberExpense.Expenses.Sum();
 
-            memberExpenses.TotalExpense = memberExpenses.TripMemberExpenses.Sum(m => m.TotalExpense);
+            member.TotalExpense = member.TripMembers.Sum(m => m.TotalExpense);
         }
 
-        private void SetAmountOwed(TripMemberExpensesCollection memberExpenses)
+        private void SetAmountOwed(TripMemberCollection member)
         {
-            var averageMemberExpense = GetAverageMemberExpense(memberExpenses);
+            var averageMemberExpense = GetAverageMemberExpense(member);
 
-            foreach (var memberExpense in memberExpenses.TripMemberExpenses)
+            foreach (var memberExpense in member.TripMembers)
+            {
                 memberExpense.AmountOwed = memberExpense.TotalExpense - averageMemberExpense;
+                memberExpense.AmountBalance = memberExpense.AmountOwed;
+            }
         }
 
-        private decimal GetAverageMemberExpense(TripMemberExpensesCollection memberExpenses)
+        private decimal GetAverageMemberExpense(TripMemberCollection member)
         {
-            return memberExpenses.TotalExpense / memberExpenses.TripMemberExpenses.Count();
+            return member.TotalExpense / member.TripMembers.Count();
         }
 
-        private IEnumerable<TripSettlement> GetCalculatedSettlements(TripMemberExpensesCollection memberExpenses)
+        private IEnumerable<TripSettlement> GetCalculatedSettlements(TripMemberCollection member)
         {
-            var tripMemberExpenses = memberExpenses.TripMemberExpenses.ToList();
+            var tripMemberExpenses = member.TripMembers.ToList();
 
             for(var i = 0; i < tripMemberExpenses.Count; i++)
             {
-                var memberExpense = tripMemberExpenses[i];
+                var payer = tripMemberExpenses[i];
 
-                if (memberExpense.AmountOwed < 0.01M)
+                if (payer.AmountBalance < 0.01M)
                 {
                     for (var j = i + 1; j < tripMemberExpenses.Count; j++)
                     {
-                        var owedMember = tripMemberExpenses[j];
+                        var payee = tripMemberExpenses[j];
 
-                        if (owedMember.AmountOwed > 0.01M)
+                        if (payee.AmountBalance > 0.01M)
                         {
-                            var transferrableAmount = GetMaximumTransferrableAmount(memberExpense, owedMember);
-                            memberExpense.AmountOwed += transferrableAmount;
-                            owedMember.AmountOwed -= transferrableAmount;
+                            var transferrableAmount = GetMaximumTransferrableAmount(payer, payee);
+                            payer.AmountTransferred += transferrableAmount;
+                            payer.AmountBalance -= transferrableAmount;
+                            payee.AmountTransferred -= transferrableAmount;
+                            payee.AmountBalance += transferrableAmount;
 
                             yield return new TripSettlement
                             {
-                                Payer = memberExpense.Member,
-                                Payee = owedMember.Member,
+                                Payer = payer,
+                                Payee = payee,
                                 Amount = transferrableAmount
                             };
                         }
@@ -74,9 +79,9 @@ namespace TripCalculator.Services
             }
         }
 
-        private decimal GetMaximumTransferrableAmount(TripMemberExpenses memberExpense, TripMemberExpenses owedMember)
+        private decimal GetMaximumTransferrableAmount(TripMember payer, TripMember payee)
         {
-            return Math.Min(Math.Abs(memberExpense.AmountOwed), owedMember.AmountOwed);
+            return Math.Min(Math.Abs(payer.AmountBalance), payee.AmountBalance);
         }
     }
 }
