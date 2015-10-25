@@ -13,10 +13,10 @@ Post a JSON payload containing the expense information to /api/tripexpenses.
 The query should be constructed similar to the following basic data structure:
 ```JSON
 {
-  "tripMemberExpenses": [
-    { "member": { "name": "Alice" }, "Expenses": [ 1.25, 1.50, 5.67, 98.41 ] },
-    { "member": { "name": "Brandon" }, "Expenses": [ 49.96, 87.12, 105.78 ] },
-    { "member": { "name": "Catherine" }, "Expenses": [ 1.01, 1.12, 2.23, 3.34, 5.45, 8.56 ] }
+  "TripMembers": [
+    { "name": "Alice", "Expenses": [ 1.25, 1.50, 5.67, 98.41 ] },
+    { "name": "Brandon", "Expenses": [ 49.96, 87.12, 105.78 ] },
+    { "name": "Catherine", "Expenses": [ 1.01, 1.12, 2.23, 3.34, 5.45, 8.56 ] }
   ]
 }
 ```
