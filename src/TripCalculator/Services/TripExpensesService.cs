@@ -69,8 +69,8 @@ namespace TripCalculator.Services
 
                             yield return new TripSettlement
                             {
-                                Sender = sender,
-                                Receiver = receiver,
+                                SenderName = sender.Name,
+                                ReceiverName = receiver.Name,
                                 Amount = transferrableAmount
                             };
                         }

@@ -47,7 +47,7 @@ namespace TripCalculator.Tests.Services
             var result = _service.GetSettlements(memberExpenses);
             var settlement = result.Settlements.ElementAt(0);
 
-            Assert.That(settlement.Sender.Name, Is.EqualTo("Amber"));
+            Assert.That(settlement.SenderName, Is.EqualTo("Amber"));
         }
 
         [Test]
@@ -58,7 +58,7 @@ namespace TripCalculator.Tests.Services
             var result = _service.GetSettlements(memberExpenses);
             var settlement = result.Settlements.ElementAt(0);
 
-            Assert.That(settlement.Receiver.Name, Is.EqualTo("Brandon"));
+            Assert.That(settlement.ReceiverName, Is.EqualTo("Brandon"));
         }
 
         [Test]
@@ -91,7 +91,7 @@ namespace TripCalculator.Tests.Services
             var result = _service.GetSettlements(memberExpenses);
             var settlement = result.Settlements.ElementAt(0);
 
-            Assert.That(settlement.Sender.Name, Is.EqualTo("Catherine"));
+            Assert.That(settlement.SenderName, Is.EqualTo("Catherine"));
         }
 
         [Test]
@@ -102,7 +102,7 @@ namespace TripCalculator.Tests.Services
             var result = _service.GetSettlements(memberExpenses);
             var settlement = result.Settlements.ElementAt(0);
 
-            Assert.That(settlement.Receiver.Name, Is.EqualTo("Brandon"));
+            Assert.That(settlement.ReceiverName, Is.EqualTo("Brandon"));
         }
 
         [Test]
@@ -124,7 +124,7 @@ namespace TripCalculator.Tests.Services
             var result = _service.GetSettlements(memberExpenses);
             var settlement = result.Settlements.ElementAt(1);
 
-            Assert.That(settlement.Sender.Name, Is.EqualTo("Amber"));
+            Assert.That(settlement.SenderName, Is.EqualTo("Amber"));
         }
 
         [Test]
@@ -135,7 +135,7 @@ namespace TripCalculator.Tests.Services
             var result = _service.GetSettlements(memberExpenses);
             var settlement = result.Settlements.ElementAt(1);
 
-            Assert.That(settlement.Receiver.Name, Is.EqualTo("Brandon"));
+            Assert.That(settlement.ReceiverName, Is.EqualTo("Brandon"));
         }
 
         [Test]

@@ -19,17 +19,18 @@ namespace TripCalculator.Controllers
         }
 
         // POST: api/TripExpenses
-        public TripExpensesResponse Post([FromBody]TripMemberCollection member)
+        public TripExpensesResponse Post([FromBody]TripMemberCollection query)
         {
-            if (member?.TripMembers == null)
+            if (!ModelState.IsValid || query?.TripMembers == null)
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
 
             try
             {
-                _logger.LogInfo("Received purchases: {0}", JsonConvert.SerializeObject(member));
-                var settlements = _tripExpensesService.GetSettlements(member);
+                _logger.LogInfo("Received purchases: {0}", JsonConvert.SerializeObject(query));
+                var settlements = _tripExpensesService.GetSettlements(query);
                 _logger.LogInfo("Calculated settlements: {0}", JsonConvert.SerializeObject(settlements));
-                return new TripExpensesResponse { Query = member, Data = settlements };
+                
+                return new TripExpensesResponse { Query = query, Data = settlements };
             }
             catch (Exception ex)
             {
