@@ -27,32 +27,25 @@ namespace TripCalculator.Services
                 member.TotalExpense = member.Expenses.Sum();
 
             members.TotalExpense = members.TripMembers.Sum(m => m.TotalExpense);
+            members.TotalExpenseAverage = members.TotalExpense/members.TripMembers.Count();
         }
 
-        private void SetAmountOwed(TripMemberCollection member)
+        private void SetAmountOwed(TripMemberCollection members)
         {
-            var averageMemberExpense = GetAverageMemberExpense(member);
-
-            foreach (var memberExpense in member.TripMembers)
+            foreach (var member in members.TripMembers)
             {
-                memberExpense.AmountOwed = memberExpense.TotalExpense - averageMemberExpense;
-                memberExpense.AmountBalance = memberExpense.AmountOwed;
+                member.AmountOwed = member.TotalExpense - members.TotalExpenseAverage;
+                member.AmountBalance = member.AmountOwed;
             }
-        }
-
-        private decimal GetAverageMemberExpense(TripMemberCollection members)
-        {
-            return members.TotalExpense / members.TripMembers.Count();
         }
 
         private IEnumerable<TripSettlement> GetCalculatedSettlements(TripMemberCollection members)
         {
-            const decimal shareTolerance = 0.1M;
             var orderedMembers = GetOrderedMembers(members);
 
-            foreach (var sender in GetSenders(orderedMembers, shareTolerance))
+            foreach (var sender in GetSenders(orderedMembers))
             {
-                foreach (var receiver in GetReceivers(orderedMembers, shareTolerance))
+                foreach (var receiver in GetReceivers(orderedMembers))
                 {
                     var transferrableAmount = GetMaximumTransferrableAmount(sender, receiver);
                     sender.AmountTransferred += transferrableAmount;
@@ -75,14 +68,14 @@ namespace TripCalculator.Services
             return members.TripMembers.OrderBy(m => m.AmountOwed).ToList();
         }
 
-        private IEnumerable<TripMember> GetSenders(List<TripMember> orderedMembers, decimal shareTolerance)
+        private IEnumerable<TripMember> GetSenders(List<TripMember> orderedMembers)
         {
-            return orderedMembers.Where(s => s.AmountBalance < shareTolerance);
+            return orderedMembers.Where(s => s.AmountBalance < 0);
         }
 
-        private IEnumerable<TripMember> GetReceivers(List<TripMember> orderedMembers, decimal shareTolerance)
+        private IEnumerable<TripMember> GetReceivers(List<TripMember> orderedMembers)
         {
-            return orderedMembers.Where(r => r.AmountBalance > shareTolerance);
+            return orderedMembers.Where(r => r.AmountBalance > 0);
         }
 
         private decimal GetMaximumTransferrableAmount(TripMember sender, TripMember receiver)

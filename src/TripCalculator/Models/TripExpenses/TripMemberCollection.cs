@@ -11,5 +11,8 @@ namespace TripCalculator.Models.TripExpenses
 
         [JsonIgnore]
         public decimal TotalExpense { get; set; }
+
+        [JsonIgnore]
+        public decimal TotalExpenseAverage { get; set; }
     }
 }
