@@ -33,10 +33,7 @@ namespace TripCalculator.Services
         private void SetAmountOwed(TripMemberCollection members)
         {
             foreach (var member in members.TripMembers)
-            {
                 member.AmountOwed = member.TotalExpense - members.TotalExpenseAverage;
-                member.AmountBalance = member.AmountOwed;
-            }
         }
 
         private IEnumerable<TripSettlement> GetCalculatedSettlements(TripMemberCollection members)
@@ -49,9 +46,7 @@ namespace TripCalculator.Services
                 {
                     var transferrableAmount = GetMaximumTransferrableAmount(sender, receiver);
                     sender.AmountTransferred += transferrableAmount;
-                    sender.AmountBalance += transferrableAmount;
                     receiver.AmountTransferred -= transferrableAmount;
-                    receiver.AmountBalance -= transferrableAmount;
 
                     yield return new TripSettlement
                     {
@@ -70,17 +65,22 @@ namespace TripCalculator.Services
 
         private IEnumerable<TripMember> GetSenders(List<TripMember> orderedMembers)
         {
-            return orderedMembers.Where(s => s.AmountBalance < 0);
+            return orderedMembers.Where(s => GetBalance(s) < 0);
         }
 
         private IEnumerable<TripMember> GetReceivers(List<TripMember> orderedMembers)
         {
-            return orderedMembers.Where(r => r.AmountBalance > 0);
+            return orderedMembers.Where(r => GetBalance(r) > 0);
         }
 
         private decimal GetMaximumTransferrableAmount(TripMember sender, TripMember receiver)
         {
-            return Math.Min(Math.Abs(sender.AmountBalance), receiver.AmountBalance);
+            return Math.Min(Math.Abs(GetBalance(sender)), GetBalance(receiver));
+        }
+
+        private decimal GetBalance(TripMember member)
+        {
+            return member.AmountOwed + member.AmountTransferred;
         }
     }
 }

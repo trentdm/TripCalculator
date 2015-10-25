@@ -20,8 +20,5 @@ namespace TripCalculator.Models.TripExpenses
 
         [JsonIgnore]
         public decimal AmountTransferred { get; set; }
-
-        [JsonIgnore]
-        public decimal AmountBalance { get; set; }
     }
 }

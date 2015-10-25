@@ -149,6 +149,83 @@ namespace TripCalculator.Tests.Services
             Assert.That(settlement.Amount, Is.EqualTo(16.97M));
         }
 
+        [Test]
+        public void TestGetSettlementsFourPersonSettlementCount()
+        {
+            var memberExpenses = GetFourMemberExpensesCollection();
+
+            var result = _service.GetSettlements(memberExpenses);
+            var settlements = result.Settlements.ToList();
+
+            Assert.That(settlements.Count, Is.EqualTo(2));
+        }
+
+        [Test]
+        public void TestGetSettlementsFourPersonFirstSettlementSender()
+        {
+            var memberExpenses = GetFourMemberExpensesCollection();
+
+            var result = _service.GetSettlements(memberExpenses);
+            var settlement = result.Settlements.ElementAt(0);
+
+            Assert.That(settlement.SenderName, Is.EqualTo("Catherine"));
+        }
+
+        [Test]
+        public void TestGetSettlementsFourPersonFirstSettlementReceiver()
+        {
+            var memberExpenses = GetFourMemberExpensesCollection();
+
+            var result = _service.GetSettlements(memberExpenses);
+            var settlement = result.Settlements.ElementAt(0);
+
+            Assert.That(settlement.ReceiverName, Is.EqualTo("Brandon"));
+        }
+
+        [Test]
+        public void TestGetSettlementsFourPersonFirstSettlementAmount()
+        {
+            var memberExpenses = GetFourMemberExpensesCollection();
+
+            var result = _service.GetSettlements(memberExpenses);
+            var settlement = result.Settlements.ElementAt(0);
+
+            Assert.That(settlement.Amount, Is.EqualTo(102.09M));
+        }
+
+        [Test]
+        public void TestGetSettlementsFourPersonSecondSettlementSender()
+        {
+            var memberExpenses = GetFourMemberExpensesCollection();
+
+            var result = _service.GetSettlements(memberExpenses);
+            var settlement = result.Settlements.ElementAt(1);
+
+            Assert.That(settlement.SenderName, Is.EqualTo("Amber"));
+        }
+
+        [Test]
+        public void TestGetSettlementsFourPersonSecondSettlementReceiver()
+        {
+            var memberExpenses = GetFourMemberExpensesCollection();
+
+            var result = _service.GetSettlements(memberExpenses);
+            var settlement = result.Settlements.ElementAt(1);
+
+            Assert.That(settlement.ReceiverName, Is.EqualTo("Brandon"));
+        }
+
+        [Test]
+        public void TestGetSettlementsFourPersonSecondSettlementAmount()
+        {
+            var memberExpenses = GetFourMemberExpensesCollection();
+
+            var result = _service.GetSettlements(memberExpenses);
+            var settlement = result.Settlements.ElementAt(1);
+
+            Assert.That(settlement.Amount, Is.EqualTo(16.97M));
+        }
+
         private TripMemberCollection GetOneMemberExpenseCollection()
         {
             var purchases = new TripMemberCollection
@@ -206,6 +283,37 @@ namespace TripCalculator.Tests.Services
                     {
                         Name = "Catherine",
                         Expenses = new[] { 1.01M, 1.12M, 2.23M, 3.34M, 5.45M, 8.56M }
+                    }
+                }
+            };
+            return purchases;
+        }
+
+        private TripMemberCollection GetFourMemberExpensesCollection()
+        {
+            var purchases = new TripMemberCollection
+            {
+                TripMembers = new List<TripMember>
+                {
+                    new TripMember
+                    {
+                        Name = "Brandon",
+                        Expenses = new[] { 49.96M, 87.12M, 105.78M }
+                    },
+                    new TripMember
+                    {
+                        Name = "Amber",
+                        Expenses = new[] { 1.25M, 1.50M, 5.67M, 98.41M }
+                    },
+                    new TripMember
+                    {
+                        Name = "Catherine",
+                        Expenses = new[] { 1.01M, 1.12M, 2.23M, 3.34M, 5.45M, 8.56M }
+                    },
+                    new TripMember
+                    {
+                        Name = "Doug",
+                        Expenses = new[] { 123.8M }
                     }
                 }
             };
