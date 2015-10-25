@@ -188,6 +188,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\SerializerConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
@@ -227,9 +228,8 @@
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\TripExpenses\TripMemberExpensesCollection.cs" />
+    <Compile Include="Models\TripExpenses\TripMemberCollection.cs" />
     <Compile Include="Models\TripExpenses\TripMember.cs" />
-    <Compile Include="Models\TripExpenses\TripMemberExpenses.cs" />
     <Compile Include="Models\TripExpenses\TripExpensesResponse.cs" />
     <Compile Include="Models\TripExpenses\TripSettlement.cs" />
     <Compile Include="Models\TripExpenses\TripSettlementCollection.cs" />

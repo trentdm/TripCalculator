@@ -16,6 +16,7 @@ namespace TripCalculator
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            SerializerConfig.RegisterSerializers();
         }
     }
 }

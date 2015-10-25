@@ -1,4 +1,6 @@
-﻿using System.Web.Http;
+﻿using System;
+using System.Net;
+using System.Web.Http;
 using Newtonsoft.Json;
 using TripCalculator.Models.TripExpenses;
 using TripCalculator.Services;
@@ -17,15 +19,23 @@ namespace TripCalculator.Controllers
         }
 
         // POST: api/TripExpenses
-        public TripExpensesResponse Post([FromBody]TripMemberExpensesCollection memberExpenses)
+        public TripExpensesResponse Post([FromBody]TripMemberCollection member)
         {
-            _logger.LogInfo("Received purchases: {0}", JsonConvert.SerializeObject(memberExpenses));
+            if (member?.TripMembers == null)
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
 
-            var settlements = _tripExpensesService.GetSettlements(memberExpenses);
-
-            _logger.LogInfo("Calculated settlements: {0}", JsonConvert.SerializeObject(settlements));
-
-            return new TripExpensesResponse { TripMemberExpenses = memberExpenses, Settlements = settlements };
+            try
+            {
+                _logger.LogInfo("Received purchases: {0}", JsonConvert.SerializeObject(member));
+                var settlements = _tripExpensesService.GetSettlements(member);
+                _logger.LogInfo("Calculated settlements: {0}", JsonConvert.SerializeObject(settlements));
+                return new TripExpensesResponse { Query = member, Data = settlements };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogException(ex);
+                throw new HttpResponseException(HttpStatusCode.InternalServerError);
+            }
         }
     }
 }

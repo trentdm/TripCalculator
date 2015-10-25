@@ -2,7 +2,7 @@
 {
     public class TripExpensesResponse
     {
-        public TripMemberExpensesCollection TripMemberExpenses { get; set; }
-        public TripSettlementCollection Settlements { get; set; }
+        public TripMemberCollection Query { get; set; }
+        public TripSettlementCollection Data { get; set; }
     }
 }
